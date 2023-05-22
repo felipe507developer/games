@@ -1,0 +1,8 @@
+{
+  "name": "Games",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "id": "eb09f402"
+}
