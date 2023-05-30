@@ -1,0 +1,38 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title size="large">lista de Usuarios</ion-title>
+    <ion-buttons slot="start" mode="ios">
+      <ion-back-button defaultHref="/lotery/0" details></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-list lines="full">
+    <ion-item lines="full" class="header-list">
+      <ion-label class="header">Usuario</ion-label>
+      <ion-label class="header"> Cantidad</ion-label>
+      <ion-label class="header">Opción</ion-label>
+    </ion-item>
+
+    <ion-item *ngFor="let persona of personas" lines="full" class="shadow">
+      <ion-label slot="start" class="name">
+        {{ persona.name }} | {{ persona.phone }}
+      </ion-label>
+
+      <ion-label class="quantity"> {{ persona.quantity }} </ion-label>
+
+      <ion-label slot="end">
+        <ion-button
+          
+          color="danger"
+          (click)="deleteUser(persona.id, persona.quantity)"
+        >
+          <ion-icon slot="icon-only" size="small" name="trash"></ion-icon>
+        </ion-button>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

@@ -1,8 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { RefresherCustomEvent } from '@ionic/angular';
-import { MessageComponent } from '../message/message.component';
+import { Platform, RefresherCustomEvent } from '@ionic/angular';
 
-import { DataService, Message } from '../services/data.service';
+import { DataService, Games } from '../services/data.service';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +10,7 @@ import { DataService, Message } from '../services/data.service';
 })
 export class HomePage {
   private data = inject(DataService);
-  constructor() {}
+  constructor(private platform: Platform) {}
 
   refresh(ev: any) {
     setTimeout(() => {
@@ -19,7 +18,11 @@ export class HomePage {
     }, 3000);
   }
 
-  getMessages(): Message[] {
+  isIos() {
+    return this.platform.is('ios')
+  }
+
+  getMessages(): Games[] {
     return this.data.getMessages();
   }
 }

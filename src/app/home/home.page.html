@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Inbox
+      Juegos disponibles
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -11,15 +11,30 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   
-  <ion-header collapse="condense">
+  <!-- <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">
         Inbox
       </ion-title>
     </ion-toolbar>
-  </ion-header>
+  </ion-header> -->
   
   <ion-list>
-    <app-message *ngFor="let message of getMessages()" [message]="message"></app-message>
+   
+    <ion-item *ngFor="let message of getMessages()" [routerLink]="'/lotery/' + message.id" [detail]="false">
+      <ion-icon slot="start" name="{{message.icon}}"></ion-icon>
+      <ion-label class="ion-text-wrap">
+        
+        <h2>
+          {{ message.fromName }}
+          <span class="date">
+            
+            <ion-icon aria-hidden="true" name="chevron-forward" size="small" *ngIf="isIos()"></ion-icon>
+          </span>
+        </h2>
+        <h3>{{ message.subject }}</h3>
+        
+      </ion-label>
+      </ion-item>
   </ion-list>
 </ion-content>

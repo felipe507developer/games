@@ -1,0 +1,24 @@
+body {
+    font-family: var(--font-from-google);
+  }
+  
+  .radius {
+    border-radius: 20px;
+  }
+  
+  .btn {
+    text-transform: lowercase !important;
+    text-transform: capitalize !important;
+  }
+  
+
+  .btn-disabled {
+    /* Estilos para el botón desactivado */
+    color: red;
+  }
+  
+  .btn-enabled {
+    /* Estilos para el botón habilitado */
+    color: green;
+    font-weight: 700;
+  }

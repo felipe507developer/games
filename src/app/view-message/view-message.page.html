@@ -1,29 +1,42 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" class="ion-no-border">
   <ion-toolbar>
+    <ion-title>{{title}}</ion-title>
     <ion-buttons slot="start">
-      <ion-back-button [text]="getBackButtonText()" defaultHref="/"></ion-back-button>
+      <ion-back-button defaultHref="/lotery/0" mode="ios"></ion-back-button>
     </ion-buttons>
+    <ion-label slot="end">
+      <ion-button fill="clear"  color="success" (click)="showWinners(id)">
+        <ion-icon slot="icon-only" name="cash-outline"></ion-icon>
+      </ion-button>
+      <ion-button  fill="clear">
+        <ion-icon slot="icon-only" name="share"></ion-icon>
+      </ion-button>
+    </ion-label>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" *ngIf="message">
-  <ion-item>
-    <ion-icon aria-hidden="true" name="person-circle" color="primary"></ion-icon>
-    <ion-label class="ion-text-wrap">
-      <h2>
-        {{ message.fromName }}
-        <span class="date">
-          <ion-note>{{ message.date }}</ion-note>
-        </span>
-      </h2>
-      <h3>To: <ion-note>Me</ion-note></h3>
-    </ion-label>
-  </ion-item>
-  
-  <div class="ion-padding">
-    <h1>{{ message.subject }}</h1>
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    </p>
-  </div>
+<ion-content [fullscreen]="true" >
+  <ion-list *ngIf="number">
+    <ion-item *ngFor="let item of number" class="shadow">
+      
+      <ion-text slot="start">
+        {{item.number}}
+      </ion-text>
+      <ion-text>
+        <ion-chip color="success" [ngClass]="item.available > 0 ? 'label-available' : 'label-complete'">
+          {{ item.available > 0 ? 'Disponible' : 'Completo' }}
+          <ion-badge class="chip-badge">{{item.available}}</ion-badge>
+        </ion-chip>
+      </ion-text>
+      <ion-text slot="end">
+        <ion-button [disabled]="item.available <= 0" fill="clear" shape="round" (click)="openModal(item.id)">
+          <ion-icon slot="icon-only" name="add"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear"  [disabled]="item.bussy <= 0" (click)="showUser(item.id)">
+          <ion-icon slot="icon-only" name="list"></ion-icon>
+        </ion-button>
+      </ion-text>
+    
+    </ion-item>
+  </ion-list>
 </ion-content>

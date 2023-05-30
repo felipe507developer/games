@@ -1,8 +1,10 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+
+import { Component, OnInit } from '@angular/core';
+import { Loteria, Numbers } from '../interface/interface';
+import { NumbersService } from '../services/numbers.service';
 import { ActivatedRoute } from '@angular/router';
-import { IonicModule, Platform } from '@ionic/angular';
-import { DataService, Message } from '../services/data.service';
+import { ModalController, NavController } from '@ionic/angular';
+import { ModalshellPage } from '../pages/modalshell/modalshell.page';
 
 @Component({
   selector: 'app-view-message',
@@ -10,20 +12,71 @@ import { DataService, Message } from '../services/data.service';
   styleUrls: ['./view-message.page.scss'],
 })
 export class ViewMessagePage implements OnInit {
-  public message!: Message;
-  private data = inject(DataService);
-  private activatedRoute = inject(ActivatedRoute);
-  private platform = inject(Platform);
+ number: Numbers[] = [];
+ id: string= '';
+ title: string = '';
 
-  constructor() {}
-
-  ngOnInit() {
-    const id = this.activatedRoute.snapshot.paramMap.get('id') as string;
-    this.message = this.data.getMessageById(parseInt(id, 10));
+  constructor(
+    private servicio: NumbersService,
+    private route: ActivatedRoute,
+    private modal: ModalController,
+    private navCtrl: NavController
+   ) {
+    // .getCollection();
   }
 
-  getBackButtonText() {
-    const isIos = this.platform.is('ios')
-    return isIos ? 'Inbox' : '';
+  ngOnInit() {
+    this.id = this.route.snapshot.paramMap.get('id') || '';
+    // Obtén el parámetro "data"
+    this.getLoteria();
+  }
+
+  ionViewDidEnter() {
+    // Este método se ejecutará cuando regreses a la página "Lotería"
+    this.getLoteria();
+  }
+
+  async openModal(id: number){
+    
+      const modal = await this.modal.create({
+      component: ModalshellPage,
+      componentProps: { 
+        loteryID: this.id,
+        id: id }
+      });
+
+      modal.onDidDismiss().then(() => {
+        // console.log('El modal se ha cerrado');
+        this.getLoteria();
+      });
+    
+      await modal.present();
+    
+  }
+  
+
+  getLoteria() {
+    this.servicio.getLoteriaPorId(this.id).then((Lotery)=>{
+      
+      this.title = Lotery?.date || 'Detalles';
+      this.number = Lotery?.numbers || [];
+    });
+  }
+
+  showUser(id: number){
+    this.navCtrl.navigateForward( '/list-user', {
+      queryParams: {
+        loteriaId: this.id,
+        numberId: id
+      }
+    })
+  }
+
+  showWinners(item: string){
+    this.navCtrl.navigateForward( '/show-winners', {
+      queryParams: {
+        data: item
+      }
+    })
   }
 }

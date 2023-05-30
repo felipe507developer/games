@@ -1,0 +1,38 @@
+<ion-content class="radius">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Número: <strong>{{number}}</strong></ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-list>
+    <ion-item>
+      <ion-label position="floating">Número entero positivo</ion-label>
+      <!-- <ion-input type="number" aria-label="" [(ngModel)]="numero" name="numero" min="1" required></ion-input> -->
+      <ion-input aria-label="" type="number" [(ngModel)]="quantity" inputmode="numeric" [max]="available" min="1"></ion-input>
+  
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Name</ion-label>
+      <ion-input aria-label="" type="text" [(ngModel)]="user"></ion-input>
+    </ion-item>
+  
+    <ion-item>
+      <ion-label position="floating">Phone</ion-label>
+      <ion-input required="" aria-label="" type="tel" [(ngModel)]="phone" (input)="applyPhoneMask($event)" max="9"></ion-input>
+    </ion-item>
+  </ion-list>
+
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button class="btn" (click)="cancel()">Cancelar</ion-button>
+      <ion-button [ngClass]="{ 'btn-disabled': !areFieldsFilled(), 'btn-enabled': areFieldsFilled() }"
+        [disabled]="!areFieldsFilled()"
+        class="btn"
+        (click)="guardar()">Guardar</ion-button>
+
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

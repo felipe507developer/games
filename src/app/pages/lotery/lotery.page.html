@@ -1,0 +1,49 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Loterias</ion-title>
+    <ion-buttons slot="start" mode="ios">
+      <ion-back-button defaultHref="home" details></ion-back-button>
+    </ion-buttons>
+
+    <ion-button color="danger" slot="end" (click)="deleteAll()">
+      <ion-icon slot="icon-only" name="trash"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content
+  [fullscreen]="true"
+  class="animate__animated animate__fadeIn deley-8s"
+>
+  <ion-list *ngIf="collection">
+    <ion-item *ngFor="let item of collection.reverse()" class="shadow">
+
+      <ion-label slot="end">
+        <ion-button   color="success" (click)="showWinners(item.id)">
+          <ion-icon slot="icon-only" name="cash-outline"></ion-icon>
+        </ion-button>
+
+        <ion-button  color="danger" (click)="deleteLoto(item.id)">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-button>
+        
+      </ion-label>
+
+      <ion-label class="ion-label" [routerLink]="'/details/'+ item.id">
+        <ion-label>{{item.date}}</ion-label>
+      </ion-label>
+
+    </ion-item>
+  </ion-list>
+
+  <ion-fab
+    slot="fixed"
+    vertical="bottom"
+    horizontal="end"
+    (click)="openModal()"
+  >
+    <ion-fab-button size="small">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
